@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="repository.account.AccountRepositoryMySQLTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2021-03-29T22:56:45" hostname="DESKTOP-1FM3CFK" time="0.609">
+  <properties/>
+  <testcase name="findAll" classname="repository.account.AccountRepositoryMySQLTest" time="0.163"/>
+  <testcase name="update" classname="repository.account.AccountRepositoryMySQLTest" time="0.1"/>
+  <testcase name="findById" classname="repository.account.AccountRepositoryMySQLTest" time="0.07"/>
+  <testcase name="save" classname="repository.account.AccountRepositoryMySQLTest" time="0.075"/>
+  <testcase name="removeById" classname="repository.account.AccountRepositoryMySQLTest" time="0.061"/>
+  <testcase name="removeAll" classname="repository.account.AccountRepositoryMySQLTest" time="0.029"/>
+  <testcase name="findByNumber" classname="repository.account.AccountRepositoryMySQLTest" time="0.111"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Tue Mar 30 01:56:44 EEST 2021 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+]]></system-err>
+</testsuite>

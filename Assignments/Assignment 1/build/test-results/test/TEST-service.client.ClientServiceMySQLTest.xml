@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="service.client.ClientServiceMySQLTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2021-03-29T22:56:47" hostname="DESKTOP-1FM3CFK" time="0.329">
+  <properties/>
+  <testcase name="updateClient" classname="service.client.ClientServiceMySQLTest" time="0.037"/>
+  <testcase name="generateCardNumber" classname="service.client.ClientServiceMySQLTest" time="0.098"/>
+  <testcase name="viewAll" classname="service.client.ClientServiceMySQLTest" time="0.025"/>
+  <testcase name="createClient" classname="service.client.ClientServiceMySQLTest" time="0.037"/>
+  <testcase name="removeById" classname="service.client.ClientServiceMySQLTest" time="0.026"/>
+  <testcase name="viewById" classname="service.client.ClientServiceMySQLTest" time="0.021"/>
+  <testcase name="removeAll" classname="service.client.ClientServiceMySQLTest" time="0.038"/>
+  <testcase name="generateNumericalCode" classname="service.client.ClientServiceMySQLTest" time="0.021"/>
+  <testcase name="viewByName" classname="service.client.ClientServiceMySQLTest" time="0.023"/>
+  <system-out><![CDATA[model.Client@4982174f
+model.Client@93aed92
+model.Client@3d910cd2
+model.Client@68f5604b
+model.Client@31943a75
+model.Client@6f1c17a8
+]]></system-out>
+  <system-err><![CDATA[Tue Mar 30 01:56:47 EEST 2021 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+]]></system-err>
+</testsuite>
