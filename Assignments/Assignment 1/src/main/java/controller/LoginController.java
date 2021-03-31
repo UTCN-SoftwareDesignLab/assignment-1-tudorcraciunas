@@ -52,7 +52,7 @@ public class LoginController {
                 JOptionPane.showMessageDialog(loginView.getContentPane(), "Login successful!");
 
 
-                if(loginNotification.getResult().getRole().getId() == 1){
+                if(loginNotification.getResult().getRole().getRole().equals("administrator")){
                     adminView.setVisible();
                 }
                 else{

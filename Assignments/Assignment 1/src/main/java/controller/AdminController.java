@@ -142,6 +142,7 @@ public class AdminController {
             if(!userNotification.hasErrors()){
 
                 User user = userNotification.getResult();
+                //I mostly did this because i wanted to simplify the process such that i could test everything to work and then couldnt fint the time to implement something better
                 List<Activity> activityList = activityService.getActivitiesBetweenDates(LocalDate.of(2000, 10, 10), LocalDate.of(2100, 10, 10), user.getId());
 
                 JOptionPane.showMessageDialog(adminView.getContentPane(), activityList.toString());

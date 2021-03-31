@@ -174,7 +174,7 @@ public class EmployeeView extends JFrame {
     }
 
     public AccountDTO getAccountDTO(){
-        LocalDate now = LocalDate.now() ;
+        LocalDate now = LocalDate.now() ; //I mostly did this because i wanted to simplify the process such that i could test everything to work and then couldnt fint the time to implement something better
 
         return new AccountDTO(
                 clientNameField.getText(),

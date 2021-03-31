@@ -88,9 +88,9 @@ public class AdminView extends JFrame {
     }
 
     public UserDTO getUserDTO(){
-        String role = "employee";
-        if(roleField.getText().equals("admin")){
-            role = "admin";
+        String role = "employee"; // i mostly did this to make it easier for me to test without writing this everytime
+        if(roleField.getText().equals("administrator")){
+            role = "administrator";
         }
 
         return new UserDTO(usernameField.getText(),
