@@ -1,12 +1,21 @@
 package view;
 
+import model.DTO.AccountDTO;
+import model.DTO.ClientDTO;
+import service.client.ClientService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class EmployeeView extends JFrame {
-    private JPanel listsPanel;
-    private JPanel buttonsPanel;
+
+    private JPanel buttonsPanelClient;
+    private JPanel buttonsPanelAccount;
+    private JPanel buttonsPanelLog;
+
     private JPanel clientPanel;
     private JPanel accountPanel;
 
@@ -18,23 +27,17 @@ public class EmployeeView extends JFrame {
     private JButton btnViewAccount;
     private JButton btnDeleteAccount;
     private JButton btnTransfer;
-    private JButton btnProcessBill;
     private JButton btnLogOut;
-
-    private JList<String> clientsJList;
-    private JList<String> accountsJList;
 
     public JTextField clientNameField;
     public JTextField clientCardNumberField;
     public JTextField clientPersonalNumberField;
     public JTextField clientAddressField;
-    public JTextField clientPhoneNumberField;
 
     private JLabel clientNameLabel;
     private JLabel clientCardLabel;
     private JLabel clientPersonalNumberLabel;
     private JLabel clientAddressLabel;
-    private JLabel clientPhoneLabel;
 
     public JTextField accountIdentityField;
     public JTextField accountTypeField;
@@ -47,8 +50,12 @@ public class EmployeeView extends JFrame {
     private JLabel accountDateLabel;
 
 
+    private Long userId = -1L;
+
+
     public EmployeeView() throws HeadlessException {
-        setSize(800,600);
+        super("Employee Operations");
+        setSize(1200,900);
         setLocationRelativeTo(null);
         initializeFields();
         setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -57,23 +64,21 @@ public class EmployeeView extends JFrame {
     }
 
     private void addComponents(){
-        buttonsPanel.add(btnAddClient);
-        buttonsPanel.add(btnUpdateClient);
-        buttonsPanel.add(btnViewClient);
-        buttonsPanel.add(btnCreateAccount);
-        buttonsPanel.add(btnUpdateAccount);
-        buttonsPanel.add(btnViewAccount);
-        buttonsPanel.add(btnDeleteAccount);
-        buttonsPanel.add(btnTransfer);
-        buttonsPanel.add(btnProcessBill);
-        buttonsPanel.add(btnLogOut);
+        buttonsPanelClient.add(btnAddClient);
+        buttonsPanelClient.add(btnUpdateClient);
+        buttonsPanelClient.add(btnViewClient);
+        buttonsPanelAccount.add(btnCreateAccount);
+        buttonsPanelAccount.add(btnUpdateAccount);
+        buttonsPanelAccount.add(btnViewAccount);
+        buttonsPanelAccount.add(btnDeleteAccount);
+        buttonsPanelAccount.add(btnTransfer);
 
-        add(buttonsPanel);
+        buttonsPanelLog.add(btnLogOut);
 
 
-        listsPanel.add(clientsJList);
-        listsPanel.add(accountsJList);
-        add(listsPanel);
+        add(buttonsPanelClient);
+        add(buttonsPanelAccount);
+        add(buttonsPanelLog);
 
         clientPanel.add(clientNameLabel);
         clientPanel.add(clientNameField);
@@ -83,9 +88,9 @@ public class EmployeeView extends JFrame {
         clientPanel.add(clientPersonalNumberField);
         clientPanel.add(clientAddressLabel);
         clientPanel.add(clientAddressField);
-        clientPanel.add(clientPhoneLabel);
-        clientPanel.add(clientPhoneNumberField);
-        add(clientPanel);
+
+
+        add(clientPanel, BorderLayout.SOUTH);
 
         accountPanel.add(accountIdentityLabel);
         accountPanel.add(accountIdentityField);
@@ -93,19 +98,27 @@ public class EmployeeView extends JFrame {
         accountPanel.add(accountTypeField);
         accountPanel.add(accountBalanceLabel);
         accountPanel.add(accountBalanceField);
-        accountPanel.add(accountDateLabel);
-        accountPanel.add(accountDateField);
 
-        add(accountPanel);
+
+
+        add(accountPanel, BorderLayout.SOUTH);
     }
 
     private void initializeFields(){
-        listsPanel = new JPanel();
-        buttonsPanel = new JPanel();
+
+        buttonsPanelClient = new JPanel();
+        buttonsPanelAccount = new JPanel();
+        buttonsPanelLog = new JPanel();
+
+       buttonsPanelClient.setLayout(new GridLayout(1,5,2,2));
+        buttonsPanelAccount.setLayout(new GridLayout(1,5,2,2));
+        buttonsPanelLog.setLayout(new GridLayout(1,5,1,1));
+
+
         clientPanel = new JPanel();
         accountPanel = new JPanel();
 
-        btnAddClient = new JButton("Add client");
+        btnAddClient = new JButton("Add client" );
         btnUpdateClient = new JButton("Update client");
         btnViewClient = new JButton("View client");
         btnCreateAccount = new JButton("Create account");
@@ -113,15 +126,9 @@ public class EmployeeView extends JFrame {
         btnViewAccount = new JButton("View account");
         btnDeleteAccount = new JButton("Delete account");
         btnTransfer = new JButton("Transfer");
-        btnProcessBill = new JButton("Process bill");
+
         btnLogOut = new JButton("Log Out");
 
-        clientsJList = new JList<>();
-        clientsJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        clientsJList.setVisibleRowCount(-1);
-        accountsJList = new JList<>();
-        accountsJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        accountsJList.setVisibleRowCount(-1);
 
         clientAddressField = new JTextField();
         clientAddressField.setColumns(20);
@@ -131,14 +138,14 @@ public class EmployeeView extends JFrame {
         clientCardNumberField.setColumns(15);
         clientNameField = new JTextField();
         clientNameField.setColumns(15);
-        clientPhoneNumberField = new JTextField();
-        clientPhoneNumberField.setColumns(15);
+
+
 
         clientNameLabel = new JLabel("Name: ");
-        clientCardLabel = new JLabel("Card Number: ");
-        clientPersonalNumberLabel = new JLabel("Personal Number: ");
+        clientCardLabel = new JLabel("Identity Card Number: ");
+        clientPersonalNumberLabel = new JLabel("Personal Numerical Code: ");
         clientAddressLabel = new JLabel("Address: ");
-        clientPhoneLabel = new JLabel("Phone: ");
+
 
         accountIdentityField = new JTextField();
         accountIdentityField.setColumns(15);
@@ -154,6 +161,36 @@ public class EmployeeView extends JFrame {
         accountIdentityLabel = new JLabel("Identification Number: ");
         accountTypeLabel = new JLabel("Type: ");
 
+    }
+
+    public ClientDTO getClientDTO(){
+        return new ClientDTO(
+                clientNameField.getText(),
+                clientCardNumberField.getText(),
+                clientPersonalNumberField.getText(),
+                clientAddressField.getText()
+                );
+
+    }
+
+    public AccountDTO getAccountDTO(){
+        LocalDate now = LocalDate.now() ;
+
+        return new AccountDTO(
+                clientNameField.getText(),
+                accountIdentityField.getText(),
+                accountTypeField.getText(),
+                Float.valueOf(accountBalanceField.getText()),
+                now
+            );
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public void setVisible() {
@@ -186,18 +223,9 @@ public class EmployeeView extends JFrame {
     public void setTransferButtonListener(ActionListener actionListener){
         btnTransfer.addActionListener(actionListener);
     }
-    public void setProcessBillButtonListener(ActionListener actionListener){
-        btnProcessBill.addActionListener(actionListener);
-    }
+
     public void setLogOutButtonListener(ActionListener actionListener){
         btnLogOut.addActionListener(actionListener);
     }
-
-    public String getSelectedClientId(){return clientsJList.getSelectedValue();}
-
-    public String getSelectedAccountIdNumber(){return accountsJList.getSelectedValue();}
-
-
-    public String getSelectedClientNumber() {return clientsJList.getSelectedValue(); }
 
 }

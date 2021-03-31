@@ -1,17 +1,40 @@
-package model;
+package model.DTO;
+
+import model.Account;
+import model.builder.AccountBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class Account {
+public class AccountDTO {
 
     private Long id;
     private Long idClient;
+    private String owner;
     private String number;
     private String type;
     private Float balance;
     private LocalDate creationDate;
 
+
+    public AccountDTO(String number) {
+        this.number = number;
+    }
+
+    public AccountDTO(String owner, String number, String type, Float balance, LocalDate creationDate) {
+        this.owner = owner;
+        this.number = number;
+        this.type = type;
+        this.balance = balance;
+        this.creationDate = creationDate;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -61,16 +84,15 @@ public class Account {
         return creationDate;
     }
 
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", idClient=" + idClient +
-                ", number='" + number + '\'' +
-                ", type='" + type + '\'' +
-                ", balance=" + balance +
-                ", creationDate=" + creationDate +
-                '}' + "\n";
+    public Account toAccount(){
+        Account account = new AccountBuilder()
+                .setClientId(this.getIdClient())
+                .setBalance(this.getBalance())
+                .setCreationDate(this.getCreationDate())
+                .setNumber(this.getNumber())
+                .setType(this.getType())
+                .setId(this.getId())
+                .build();
+        return account;
     }
 }

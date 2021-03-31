@@ -41,4 +41,14 @@ public class Activity {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", idUser=" + idUser +
+                ", activity='" + activity + '\'' +
+                ", date=" + date +
+                '}' + "\n";
+    }
 }

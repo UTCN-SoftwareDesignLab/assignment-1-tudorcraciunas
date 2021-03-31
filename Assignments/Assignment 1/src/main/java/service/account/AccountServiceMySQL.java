@@ -86,7 +86,7 @@ public class AccountServiceMySQL implements AccountService{
         accountRepository.update(destination);
 
         Notification<String> transfer = new Notification<>();
-        transfer.setResult("Transferred " + amount + "$ to " + sourceAccount);
+        transfer.setResult("Transferred " + amount + "$ from " + sourceAccount+ " to " + destinationAccount);
 
         return transfer;
     }

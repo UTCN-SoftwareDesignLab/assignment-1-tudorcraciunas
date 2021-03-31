@@ -1,9 +1,10 @@
 package controller;
 
-import launcher.ComponentFactory;
 import model.User;
 import model.validation.Notification;
+import service.client.ClientService;
 import service.user.AuthenticationService;
+import view.AdminView;
 import view.EmployeeView;
 import view.LoginView;
 
@@ -13,14 +14,16 @@ import java.awt.event.ActionListener;
 
 public class LoginController {
     private final LoginView loginView;
+    private final AdminView adminView;
     private final AuthenticationService authenticationService;
-    private final EmployeeControler employeeControler;
+    private final EmployeeView employeeView;
     private boolean isAdmin = false;
 
 
-    public LoginController(LoginView loginView, AuthenticationService authenticationService) {
+    public LoginController(LoginView loginView, AuthenticationService authenticationService, EmployeeView employeeView, AdminView adminView) {
         this.loginView = loginView;
-        this.employeeControler = new EmployeeControler(authenticationService);
+        this.adminView = adminView;
+        this.employeeView = employeeView;
         this.authenticationService = authenticationService;
         loginView.setLoginButtonListener(new LoginButtonListener());
         loginView.setRegisterButtonListener(new RegisterButtonListener());
@@ -50,11 +53,15 @@ public class LoginController {
 
 
                 if(loginNotification.getResult().getRole().getId() == 1){
-                    //adminController.setVisible();
+                    adminView.setVisible();
                 }
                 else{
-                    employeeControler.setVisible();
+
+                    employeeView.setUserId(loginNotification.getResult().getId());
+                    employeeView.setVisible();
+
                 }
+                loginView.setNotVisible();
 
             }
         }

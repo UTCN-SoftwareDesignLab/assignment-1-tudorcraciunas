@@ -50,5 +50,6 @@ public class LoginView extends JFrame {
     public void setVisible() {
         this.setVisible(true);
     }
+    public void setNotVisible(){this.setVisible(false);}
 
 }

@@ -26,6 +26,7 @@ public class UserValidator {
     public boolean validate(){
         validateUsername(user.getUsername());
         validatePassword(user.getPassword());
+        validateRole(user.getRole().getRole());
         return errors.isEmpty();
     }
 
@@ -33,6 +34,11 @@ public class UserValidator {
         if (!Pattern.compile(EMAIL_VALIDATION_REGEX).matcher(username).matches()){
             errors.add("Invalid email!");
         }
+    }
+
+    private void validateRole(String role){
+        if(!role.equals("admin") && !role.equals("employee"))
+            errors.add("Role must be admin or employee but is instead " + role);
     }
 
     private void validatePassword(String password) {

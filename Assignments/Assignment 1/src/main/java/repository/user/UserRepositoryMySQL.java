@@ -80,6 +80,7 @@ public class UserRepositoryMySQL implements UserRepository {
                         .setUsername(userResultSet.getString("username"))
                         .setPassword(userResultSet.getString("password"))
                         .setRole(rightsRolesRepository.findRoleById(userResultSet.getLong("idrole")))
+                        .setId(userResultSet.getLong("iduser"))
                         .build();
                 findByUsernameAndPasswordNotification.setResult(user);
                 return findByUsernameAndPasswordNotification;
@@ -95,13 +96,39 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override
+    public Notification<User> findByUsername(String username) {
+        Notification<User> findByUsernameAndPasswordNotification = new Notification<>();
+        try {
+            Statement statement = connection.createStatement();
+            String fetchUserSql = "Select * from `" + USER + "` where `username`=\'" + username + "\'";
+            ResultSet userResultSet = statement.executeQuery(fetchUserSql);
+            if (userResultSet.next()) {
+                User user = new UserBuilder()
+                        .setUsername(userResultSet.getString("username"))
+                        .setPassword(userResultSet.getString("password"))
+                        .setRole(rightsRolesRepository.findRoleById(userResultSet.getLong("idrole")))
+                        .setId(userResultSet.getLong("iduser"))
+                        .build();
+                findByUsernameAndPasswordNotification.setResult(user);
+            } else {
+                findByUsernameAndPasswordNotification.addError("Invalid email or password!");
+            }
+            return findByUsernameAndPasswordNotification;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            findByUsernameAndPasswordNotification.addError("Something is wrong with the Database");
+        }
+        return findByUsernameAndPasswordNotification;
+    }
+
+    @Override
     public boolean save(User user) {
         try {
             PreparedStatement insertUserStatement = connection
                     .prepareStatement("INSERT INTO user values (null, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             insertUserStatement.setString(1, user.getUsername());
             insertUserStatement.setString(2, user.getPassword());
-            insertUserStatement.setLong(3, user.getRole().getId());
+            insertUserStatement.setLong(3, rightsRolesRepository.findRoleByTitle(user.getRole().getRole()).getId());
             insertUserStatement.executeUpdate();
 
             ResultSet rs = insertUserStatement.getGeneratedKeys();
@@ -132,8 +159,9 @@ public class UserRepositoryMySQL implements UserRepository {
     public boolean updatePassword(User user){
         try{
             PreparedStatement statement = connection
-                    .prepareStatement("UPDATE user SET password = ? WHERE `iduser` = " + user.getId());
+                    .prepareStatement("UPDATE user SET password = ?, role = ? WHERE `iduser` = " + user.getId());
             statement.setString(1, user.getPassword());
+            statement.setLong(2, rightsRolesRepository.findRoleByTitle(user.getRole().getRole()).getId());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

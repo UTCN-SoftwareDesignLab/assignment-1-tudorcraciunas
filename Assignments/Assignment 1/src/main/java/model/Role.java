@@ -6,12 +6,10 @@ public class Role {
 
     private Long id;
     private String role;
-    private List<Right> rights;
 
-    public Role(Long id, String role, List<Right> rights) {
+    public Role(Long id, String role) {
         this.id = id;
         this.role = role;
-        this.rights = rights;
     }
 
     public Long getId() {
@@ -30,11 +28,5 @@ public class Role {
         this.role = role;
     }
 
-    public List<Right> getRights() {
-        return rights;
-    }
 
-    public void setRights(List<Right> rights) {
-        this.rights = rights;
-    }
 }

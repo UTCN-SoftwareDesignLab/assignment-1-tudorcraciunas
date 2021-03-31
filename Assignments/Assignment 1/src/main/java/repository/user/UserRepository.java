@@ -14,6 +14,8 @@ public interface UserRepository {
 
     void removeById(Long id);
 
+    Notification<User> findByUsername(String username);
+
     boolean save(User user);
 
     boolean updatePassword(User user);
